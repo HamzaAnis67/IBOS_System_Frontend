@@ -1,0 +1,171 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 240 20% 4%;
+    --foreground: 0 0% 100%;
+    --card: 240 14% 10%;
+    --card-foreground: 0 0% 100%;
+    --popover: 240 14% 10%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 245 52% 67%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 157 68% 37%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 240 10% 16%;
+    --muted-foreground: 0 0% 100% / 0.4;
+    --accent: 245 52% 67%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 74% 58%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 240 10% 20%;
+    --input: 240 10% 20%;
+    --ring: 245 52% 67%;
+    --radius: 0.75rem;
+    --success: 157 68% 37%;
+
+    --sidebar-background: 240 14% 10%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 245 52% 67%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 10% 16%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 240 10% 20%;
+    --sidebar-ring: 245 52% 67%;
+
+    --font-heading: "Space Grotesk", sans-serif;
+    --font-body: "DM Sans", sans-serif;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-body);
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading);
+  }
+}
+
+/* Enhanced orbs */
+.orb-purple {
+  background: radial-gradient(
+    circle,
+    rgba(127, 119, 221, 0.35) 0%,
+    rgba(83, 74, 183, 0.15) 40%,
+    transparent 70%
+  );
+  filter: blur(40px);
+}
+.orb-teal {
+  background: radial-gradient(
+    circle,
+    rgba(29, 158, 117, 0.3) 0%,
+    rgba(15, 110, 86, 0.12) 40%,
+    transparent 70%
+  );
+  filter: blur(40px);
+}
+
+/* Custom checkbox */
+.custom-checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid rgba(127, 119, 221, 0.5);
+  border-radius: 4px;
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s;
+}
+.custom-checkbox:checked {
+  background: #7f77dd;
+  border-color: #7f77dd;
+}
+.custom-checkbox:checked::after {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 1px;
+  width: 5px;
+  height: 9px;
+  border: 2px solid white;
+  border-top: none;
+  border-left: none;
+  transform: rotate(45deg);
+}
+.custom-checkbox:hover {
+  border-color: #7f77dd;
+  box-shadow: 0 0 0 3px rgba(127, 119, 221, 0.15);
+}
+
+@keyframes float-1 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(30px, -20px) scale(1.05);
+  }
+  66% {
+    transform: translate(-20px, 15px) scale(0.95);
+  }
+}
+
+@keyframes float-2 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(-25px, 20px) scale(0.95);
+  }
+  66% {
+    transform: translate(20px, -15px) scale(1.05);
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-float-1 {
+  animation: float-1 8s ease-in-out infinite;
+}
+.animate-float-2 {
+  animation: float-2 10s ease-in-out infinite;
+}
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s ease-out forwards;
+}
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
