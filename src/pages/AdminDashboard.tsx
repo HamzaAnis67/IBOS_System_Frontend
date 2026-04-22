@@ -179,6 +179,7 @@ const AdminDashboard = () => {
   const [qrData, setQrData] = useState("");
   const [selectedChat, setSelectedChat] = useState<string | null>(null);
   const [messageInput, setMessageInput] = useState("");
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Fetch clients data from API
   useEffect(() => {
@@ -438,22 +439,22 @@ const AdminDashboard = () => {
     switch (activeSection) {
       case "overview":
         return (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="p-6 rounded-xl" style={{ background: "linear-gradient(145deg, #1a1a24 0%, #14141c 100%)", border: "1px solid rgba(127,119,221,0.25)" }}>
-              <h3 className="text-lg font-semibold text-white mb-2">Total Clients</h3>
-              <p className="text-3xl font-bold" style={{ color: "#7F77DD" }}>{clients.length}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+            <div className="p-4 lg:p-6 rounded-xl" style={{ background: "linear-gradient(145deg, #1a1a24 0%, #14141c 100%)", border: "1px solid rgba(127,119,221,0.25)" }}>
+              <h3 className="text-sm lg:text-lg font-semibold text-white mb-2">Total Clients</h3>
+              <p className="text-2xl lg:text-3xl font-bold" style={{ color: "#7F77DD" }}>{clients.length}</p>
             </div>
-            <div className="p-6 rounded-xl" style={{ background: "linear-gradient(145deg, #1a1a24 0%, #14141c 100%)", border: "1px solid rgba(127,119,221,0.25)" }}>
-              <h3 className="text-lg font-semibold text-white mb-2">Total Employees</h3>
-              <p className="text-3xl font-bold" style={{ color: "#1D9E75" }}>{employees.length}</p>
+            <div className="p-4 lg:p-6 rounded-xl" style={{ background: "linear-gradient(145deg, #1a1a24 0%, #14141c 100%)", border: "1px solid rgba(127,119,221,0.25)" }}>
+              <h3 className="text-sm lg:text-lg font-semibold text-white mb-2">Total Employees</h3>
+              <p className="text-2xl lg:text-3xl font-bold" style={{ color: "#1D9E75" }}>{employees.length}</p>
             </div>
-            <div className="p-6 rounded-xl" style={{ background: "linear-gradient(145deg, #1a1a24 0%, #14141c 100%)", border: "1px solid rgba(127,119,221,0.25)" }}>
-              <h3 className="text-lg font-semibold text-white mb-2">Active Projects</h3>
-              <p className="text-3xl font-bold" style={{ color: "#F59E0B" }}>{projects.length}</p>
+            <div className="p-4 lg:p-6 rounded-xl" style={{ background: "linear-gradient(145deg, #1a1a24 0%, #14141c 100%)", border: "1px solid rgba(127,119,221,0.25)" }}>
+              <h3 className="text-sm lg:text-lg font-semibold text-white mb-2">Active Projects</h3>
+              <p className="text-2xl lg:text-3xl font-bold" style={{ color: "#F59E0B" }}>{projects.length}</p>
             </div>
-            <div className="p-6 rounded-xl" style={{ background: "linear-gradient(145deg, #1a1a24 0%, #14141c 100%)", border: "1px solid rgba(127,119,221,0.25)" }}>
-              <h3 className="text-lg font-semibold text-white mb-2">Pending Invoices</h3>
-              <p className="text-3xl font-bold" style={{ color: "#E24B4A" }}>{invoices.filter(inv => inv.status === "Pending").length}</p>
+            <div className="p-4 lg:p-6 rounded-xl" style={{ background: "linear-gradient(145deg, #1a1a24 0%, #14141c 100%)", border: "1px solid rgba(127,119,221,0.25)" }}>
+              <h3 className="text-sm lg:text-lg font-semibold text-white mb-2">Pending Invoices</h3>
+              <p className="text-2xl lg:text-3xl font-bold" style={{ color: "#E24B4A" }}>{invoices.filter(inv => inv.status === "Pending").length}</p>
             </div>
           </div>
         );
@@ -464,29 +465,62 @@ const AdminDashboard = () => {
             <div className="p-6 border-b" style={{ borderColor: "rgba(255,255,255,0.1)" }}>
               <h2 className="text-xl font-semibold text-white">All Clients</h2>
             </div>
-            <div className="overflow-x-auto">
+            {/* Desktop Table */}
+            <div className="hidden md:block overflow-x-auto">
               <table className="w-full">
                 <thead style={{ background: "rgba(255,255,255,0.02)" }}>
                   <tr>
-                    <th className="px-6 py-4 text-left text-sm font-medium text-white">Name</th>
-                    <th className="px-6 py-4 text-left text-sm font-medium text-white">Email</th>
-                    <th className="px-6 py-4 text-left text-sm font-medium text-white">Phone</th>
-                    <th className="px-6 py-4 text-left text-sm font-medium text-white">Department</th>
-                    <th className="px-6 py-4 text-left text-sm font-medium text-white">Joined</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Name</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Email</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Phone</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Department</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="divide-y" style={{ borderColor: "rgba(255,255,255,0.05)" }}>
                   {clients.map((client) => (
-                    <tr key={client._id} style={{ borderColor: "rgba(255,255,255,0.05)" }}>
-                      <td className="px-6 py-4 text-sm text-white">{client.name}</td>
-                      <td className="px-6 py-4 text-sm" style={{ color: "rgba(255,255,255,0.7)" }}>{client.email}</td>
-                      <td className="px-6 py-4 text-sm" style={{ color: "rgba(255,255,255,0.7)" }}>{client.phone}</td>
-                      <td className="px-6 py-4 text-sm" style={{ color: "rgba(255,255,255,0.7)" }}>{client.department}</td>
-                      <td className="px-6 py-4 text-sm" style={{ color: "rgba(255,255,255,0.7)" }}>{new Date(client.createdAt).toLocaleDateString()}</td>
+                    <tr key={client._id}>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm font-medium text-white">{client.name}</div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-white">{client.email}</div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-white">{client.phone}</div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-white">{client.department}</div>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
+            </div>
+
+            {/* Mobile Cards */}
+            <div className="md:hidden space-y-4 p-4">
+              {clients.map((client) => (
+                <div key={client._id} className="p-4 rounded-lg" style={{ background: "rgba(255,255,255,0.02)" }}>
+                  <div className="space-y-2">
+                    <div>
+                      <span className="text-xs font-medium" style={{ color: "rgba(255,255,255,0.5)" }}>Name</span>
+                      <p className="text-sm text-white font-medium">{client.name}</p>
+                    </div>
+                    <div>
+                      <span className="text-xs font-medium" style={{ color: "rgba(255,255,255,0.5)" }}>Email</span>
+                      <p className="text-sm text-white">{client.email}</p>
+                    </div>
+                    <div>
+                      <span className="text-xs font-medium" style={{ color: "rgba(255,255,255,0.5)" }}>Phone</span>
+                      <p className="text-sm text-white">{client.phone}</p>
+                    </div>
+                    <div>
+                      <span className="text-xs font-medium" style={{ color: "rgba(255,255,255,0.5)" }}>Department</span>
+                      <p className="text-sm text-white">{client.department}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         );
@@ -497,40 +531,87 @@ const AdminDashboard = () => {
             <div className="p-6 border-b" style={{ borderColor: "rgba(255,255,255,0.1)" }}>
               <h2 className="text-xl font-semibold text-white">All Employees</h2>
             </div>
-            <div className="overflow-x-auto">
+            {/* Desktop Table */}
+            <div className="hidden md:block overflow-x-auto">
               <table className="w-full">
                 <thead style={{ background: "rgba(255,255,255,0.02)" }}>
                   <tr>
-                    <th className="px-6 py-4 text-left text-sm font-medium text-white">Name</th>
-                    <th className="px-6 py-4 text-left text-sm font-medium text-white">Email</th>
-                    <th className="px-6 py-4 text-left text-sm font-medium text-white">Phone</th>
-                    <th className="px-6 py-4 text-left text-sm font-medium text-white">Department</th>
-                    <th className="px-6 py-4 text-left text-sm font-medium text-white">Role</th>
-                    <th className="px-6 py-4 text-left text-sm font-medium text-white">Joined</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Name</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Email</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Phone</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Department</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Role</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Joined</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="divide-y" style={{ borderColor: "rgba(255,255,255,0.05)" }}>
                   {employees.map((employee) => (
-                    <tr key={employee._id} style={{ borderColor: "rgba(255,255,255,0.05)" }}>
-                      <td className="px-6 py-4 text-sm text-white">{employee.name}</td>
-                      <td className="px-6 py-4 text-sm" style={{ color: "rgba(255,255,255,0.7)" }}>{employee.email}</td>
-                      <td className="px-6 py-4 text-sm" style={{ color: "rgba(255,255,255,0.7)" }}>{employee.phone}</td>
-                      <td className="px-6 py-4 text-sm" style={{ color: "rgba(255,255,255,0.7)" }}>{employee.department}</td>
-                      <td className="px-6 py-4 text-sm" style={{ color: "rgba(255,255,255,0.7)" }}>{employee.role}</td>
-                      <td className="px-6 py-4 text-sm" style={{ color: "rgba(255,255,255,0.7)" }}>{new Date(employee.createdAt).toLocaleDateString()}</td>
+                    <tr key={employee._id}>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm font-medium text-white">{employee.name}</div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-white">{employee.email}</div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-white">{employee.phone}</div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-white">{employee.department}</div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-white">{employee.role}</div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-white">{new Date(employee.createdAt).toLocaleDateString()}</div>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
+            </div>
+
+            {/* Mobile Cards */}
+            <div className="md:hidden space-y-4 p-4">
+              {employees.map((employee) => (
+                <div key={employee._id} className="p-4 rounded-lg" style={{ background: "rgba(255,255,255,0.02)" }}>
+                  <div className="space-y-2">
+                    <div>
+                      <span className="text-xs font-medium" style={{ color: "rgba(255,255,255,0.5)" }}>Name</span>
+                      <p className="text-sm text-white font-medium">{employee.name}</p>
+                    </div>
+                    <div>
+                      <span className="text-xs font-medium" style={{ color: "rgba(255,255,255,0.5)" }}>Email</span>
+                      <p className="text-sm text-white">{employee.email}</p>
+                    </div>
+                    <div>
+                      <span className="text-xs font-medium" style={{ color: "rgba(255,255,255,0.5)" }}>Phone</span>
+                      <p className="text-sm text-white">{employee.phone}</p>
+                    </div>
+                    <div>
+                      <span className="text-xs font-medium" style={{ color: "rgba(255,255,255,0.5)" }}>Department</span>
+                      <p className="text-sm text-white">{employee.department}</p>
+                    </div>
+                    <div>
+                      <span className="text-xs font-medium" style={{ color: "rgba(255,255,255,0.5)" }}>Role</span>
+                      <p className="text-sm text-white">{employee.role}</p>
+                    </div>
+                    <div>
+                      <span className="text-xs font-medium" style={{ color: "rgba(255,255,255,0.5)" }}>Joined</span>
+                      <p className="text-sm text-white">{new Date(employee.createdAt).toLocaleDateString()}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         );
 
       case "create-user":
         return (
-          <div className="rounded-xl p-6" style={{ background: "linear-gradient(145deg, #1a1a24 0%, #14141c 100%)", border: "1px solid rgba(127,119,221,0.25)" }}>
-            <h2 className="text-xl font-semibold text-white mb-6">Create New User</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="rounded-xl p-4 lg:p-6" style={{ background: "linear-gradient(145deg, #1a1a24 0%, #14141c 100%)", border: "1px solid rgba(127,119,221,0.25)" }}>
+            <h2 className="text-lg lg:text-xl font-semibold text-white mb-4 lg:mb-6">Create New User</h2>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium mb-2" style={{ color: "rgba(255,255,255,0.7)" }}>
                   Name
@@ -1439,15 +1520,18 @@ const AdminDashboard = () => {
 
       case "chat":
         return (
-          <div className="rounded-xl" style={{ background: "linear-gradient(145deg, #1a1a24 0%, #14141c 100%)", border: "1px solid rgba(127,119,221,0.25)" }}>
-            <div className="p-6 border-b" style={{ borderColor: "rgba(255,255,255,0.1)" }}>
-              <h2 className="text-xl font-semibold text-white">Chat</h2>
+          <div className="rounded-xl overflow-hidden" style={{ background: "linear-gradient(145deg, #1a1a24 0%, #14141c 100%)", border: "1px solid rgba(127,119,221,0.25)" }}>
+            <div className="p-4 lg:p-6 border-b" style={{ borderColor: "rgba(255,255,255,0.1)" }}>
+              <h2 className="text-lg lg:text-xl font-semibold text-white">Chat</h2>
             </div>
-            <div className="flex h-96">
-              <div className="w-1/3 border-r" style={{ borderColor: "rgba(255,255,255,0.1)" }}>
-                <div className="p-4 h-full flex flex-col">
-                  <h3 className="text-sm font-medium mb-3" style={{ color: "rgba(255,255,255,0.6)" }}>Conversations</h3>
-                  <div className="space-y-2 overflow-y-auto flex-1">
+            <div className="flex flex-col lg:flex-row min-h-[500px] lg:min-h-[600px]">
+              {/* Conversations Sidebar */}
+              <div className="w-full lg:w-1/3 border-b lg:border-r lg:border-b-0 overflow-hidden flex flex-col" style={{ borderColor: "rgba(255,255,255,0.1)" }}>
+                <div className="p-3 lg:p-4 flex-shrink-0">
+                  <h3 className="text-xs lg:text-sm font-medium" style={{ color: "rgba(255,255,255,0.6)" }}>Conversations</h3>
+                </div>
+                <div className="flex-1 overflow-y-auto px-3 lg:px-4 pb-3 lg:pb-4">
+                  <div className="space-y-2">
                     {conversations.map((conversation) => (
                         <button
                           key={conversation.user._id}
@@ -1490,13 +1574,13 @@ const AdminDashboard = () => {
 
                             fetchConversation();
                           }}
-                          className="w-full text-left p-3 rounded-lg transition-colors"
+                          className="w-full text-left p-2 lg:p-3 rounded-lg transition-colors truncate"
                           style={{
                             background: selectedChat === conversation.user._id ? "rgba(127,119,221,0.2)" : "transparent",
                           }}
                         >
-                          <div className="font-medium text-white text-sm">{conversation.user.name}</div>
-                          <div className="text-xs" style={{ color: "rgba(255,255,255,0.5)" }}>{conversation.user.email}</div>
+                          <div className="font-medium text-white text-xs lg:text-sm truncate">{conversation.user.name}</div>
+                          <div className="text-xs truncate" style={{ color: "rgba(255,255,255,0.5)" }}>{conversation.user.email}</div>
                           {conversation.unreadCount > 0 && (
                             <div className="mt-1">
                               <span className="inline-block px-2 py-1 text-xs rounded-full" style={{ background: "#1D9E75", color: "white" }}>
@@ -1508,8 +1592,8 @@ const AdminDashboard = () => {
                       ))}
                     
                     {/* Available users to start new conversations */}
-                    <div className="mt-6">
-                      <p className="text-sm mb-3" style={{ color: "rgba(255,255,255,0.7)" }}>
+                    <div className="mt-4 lg:mt-6">
+                      <p className="text-xs lg:text-sm mb-2 lg:mb-3" style={{ color: "rgba(255,255,255,0.7)" }}>
                         Start a new conversation:
                       </p>
                       <div className="space-y-2">
@@ -1521,13 +1605,13 @@ const AdminDashboard = () => {
                               // Initialize empty conversation for new chat
                               setCurrentMessages([]);
                             }}
-                            className="w-full text-left p-3 rounded-lg transition-colors"
+                            className="w-full text-left p-2 lg:p-3 rounded-lg transition-colors truncate"
                             style={{
                               background: selectedChat === contact._id ? "rgba(127,119,221,0.2)" : "transparent",
                             }}
                           >
-                            <div className="font-medium text-white text-sm">{contact.name}</div>
-                            <div className="text-xs" style={{ color: "rgba(255,255,255,0.5)" }}>{contact.email}</div>
+                            <div className="font-medium text-white text-xs lg:text-sm truncate">{contact.name}</div>
+                            <div className="text-xs truncate" style={{ color: "rgba(255,255,255,0.5)" }}>{contact.email}</div>
                             <div className="text-xs mt-1" style={{ color: "rgba(255,255,255,0.4)" }}>
                               {contact.role === 'client' ? 'Client' : 'Employee'}
                             </div>
@@ -1538,10 +1622,10 @@ const AdminDashboard = () => {
                   </div>
                 </div>
               </div>
-              <div className="flex-1 flex flex-col">
-                <div className="flex-1 p-4 overflow-y-auto">
+              <div className="flex-1 flex flex-col overflow-hidden" style={{ minHeight: "300px" }}>
+                <div className="flex-1 overflow-y-auto p-3 lg:p-4" style={{ minHeight: "200px" }}>
                   {selectedChat ? (
-                    <div className="space-y-3">
+                    <div className="space-y-2 lg:space-y-3">
                       {currentMessages.map((msg) => {
                         // Check if the message is sent by admin (current user)
                         const isAdminSender = msg.sender._id === localStorage.getItem('id');
@@ -1551,13 +1635,13 @@ const AdminDashboard = () => {
                             className={`flex ${isAdminSender ? 'justify-end' : 'justify-start'}`}
                           >
                             <div 
-                              className={`p-3 rounded-lg max-w-[70%] ${
+                              className={`p-2 lg:p-3 rounded-lg max-w-[85%] lg:max-w-[70%] break-words ${
                                 isAdminSender 
                                   ? 'bg-gradient-to-r from-[#534AB7] to-[#1D9E75]' 
                                   : 'bg-[rgba(255,255,255,0.05)]'
                               }`}
                             >
-                              <p className="text-sm text-white">{msg.message}</p>
+                              <p className="text-xs lg:text-sm text-white break-words">{msg.message}</p>
                               <p className="text-xs mt-1" style={{ color: "rgba(255,255,255,0.5)" }}>
                                 {new Date(msg.createdAt).toLocaleTimeString()}
                               </p>
@@ -1572,13 +1656,13 @@ const AdminDashboard = () => {
                     </div>
                   )}
                 </div>
-                <div className="p-4 border-t" style={{ borderColor: "rgba(255,255,255,0.1)" }}>
+                <div className="p-3 lg:p-4 border-t flex-shrink-0" style={{ borderColor: "rgba(255,255,255,0.1)", background: "linear-gradient(145deg, #1a1a24 0%, #14141c 100%)" }}>
                   <div className="flex gap-2">
                     <input
                       type="text"
                       value={messageInput}
                       onChange={(e) => setMessageInput(e.target.value)}
-                      className="flex-1 px-4 py-2 rounded-lg text-white outline-none"
+                      className="flex-1 px-3 py-2 rounded-lg text-white outline-none text-sm"
                       style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)" }}
                       placeholder="Type a message..."
                       disabled={!selectedChat}
@@ -1652,7 +1736,7 @@ const AdminDashboard = () => {
                           }
                         }
                       }}
-                      className="px-4 py-2 rounded-lg text-white font-medium"
+                      className="px-3 lg:px-4 py-2 rounded-lg text-white font-medium text-sm"
                       style={{ background: "linear-gradient(135deg, #534AB7 0%, #1D9E75 100%)" }}
                       disabled={!selectedChat}
                     >
@@ -1806,8 +1890,22 @@ const AdminDashboard = () => {
 
   return (
     <div className="min-h-screen flex" style={{ background: "#0c0c12" }}>
+      {/* Mobile Menu Overlay */}
+      {isMobileMenuOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
+      
       {/* Sidebar */}
-      <div className="w-64 p-4 border-r" style={{ borderColor: "rgba(255,255,255,0.1)" }}>
+      <div className={`
+        fixed lg:relative lg:translate-x-0 z-50
+        ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}
+        transition-transform duration-300 ease-in-out
+        w-64 h-full lg:h-auto p-4 border-r
+        flex flex-col overflow-hidden
+      `} style={{ borderColor: "rgba(255,255,255,0.1)" }}>
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-8">
             <div
@@ -1838,11 +1936,17 @@ const AdminDashboard = () => {
           </div>
         </div>
         
-        <nav className="space-y-2">
+        <nav className="space-y-2 flex-1 overflow-y-auto py-4">
           {menuItems.map((item) => (
             <button
               key={item.id}
-              onClick={() => setActiveSection(item.id)}
+              onClick={() => {
+                setActiveSection(item.id);
+                // Close mobile menu after selection
+                if (window.innerWidth < 1024) {
+                  setIsMobileMenuOpen(false);
+                }
+              }}
               className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-all duration-200"
               style={{
                 background: activeSection === item.id ? "rgba(127,119,221,0.2)" : "transparent",
@@ -1857,7 +1961,13 @@ const AdminDashboard = () => {
 
         <div className="mt-auto pt-8">
           <button
-            onClick={handleLogout}
+            onClick={() => {
+              handleLogout();
+              // Close mobile menu after logout
+              if (window.innerWidth < 1024) {
+                setIsMobileMenuOpen(false);
+              }
+            }}
             className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-all duration-200"
             style={{ color: "rgba(255,255,255,0.6)" }}
           >
@@ -1868,8 +1978,36 @@ const AdminDashboard = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 p-8">
-        <div className="mb-8">
+      <div className="flex-1 flex flex-col lg:ml-0">
+        {/* Mobile Header */}
+        <div className="lg:hidden flex items-center justify-between p-4 border-b" style={{ borderColor: "rgba(255,255,255,0.1)" }}>
+          <button
+            onClick={() => setIsMobileMenuOpen(true)}
+            className="p-2 rounded-lg"
+            style={{ background: "rgba(255,255,255,0.05)" }}
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="white"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <line x1="3" y1="12" x2="21" y2="12" />
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <line x1="3" y1="18" x2="21" y2="18" />
+            </svg>
+          </button>
+          <h1 className="text-lg font-bold text-white">
+            {menuItems.find(item => item.id === activeSection)?.label || "Dashboard"}
+          </h1>
+        </div>
+
+        {/* Desktop Header */}
+        <div className="hidden lg:block p-8 pb-4">
           <h1 className="text-2xl font-bold text-white">
             {menuItems.find(item => item.id === activeSection)?.label || "Dashboard"}
           </h1>
@@ -1877,8 +2015,11 @@ const AdminDashboard = () => {
             Manage your IBOS system
           </p>
         </div>
-        
-        {renderContent()}
+
+        {/* Content */}
+        <div className="flex-1 p-4 lg:p-8 overflow-auto">
+          {renderContent()}
+        </div>
         
         {/* Toast */}
         {toast && (

@@ -82,6 +82,7 @@ const ClientDashboard = () => {
   const [toast, setToast] = useState<Toast | null>(null);
   const [messageInput, setMessageInput] = useState("");
   const [dashboardData, setDashboardData] = useState<any>(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const showToast = useCallback(
     (message: string, type: "success" | "error") => {
@@ -443,44 +444,44 @@ Generated on: ${new Date().toLocaleDateString()}
       case "overview":
         return (
           <div className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div className="p-6 rounded-xl" style={{ background: "linear-gradient(145deg, #1a1a24 0%, #14141c 100%)", border: "1px solid rgba(127,119,221,0.25)" }}>
-                <h3 className="text-lg font-semibold text-white mb-4">Pending Projects</h3>
-                <div className="text-3xl font-bold text-white">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+              <div className="p-4 lg:p-6 rounded-xl" style={{ background: "linear-gradient(145deg, #1a1a24 0%, #14141c 100%)", border: "1px solid rgba(127,119,221,0.25)" }}>
+                <h3 className="text-sm lg:text-lg font-semibold text-white mb-2 lg:mb-4">Pending Projects</h3>
+                <div className="text-2xl lg:text-3xl font-bold text-white">
                   {dashboardData?.projectStats?.pending || projects.filter(p => p.status === 'pending').length}
                 </div>
-                <p className="text-sm mt-2" style={{ color: "rgba(255,255,255,0.7)" }}>
+                <p className="text-xs lg:text-sm mt-1 lg:mt-2" style={{ color: "rgba(255,255,255,0.7)" }}>
                   {dashboardData?.projectStats?.pending || projects.filter(p => p.status === 'pending').length} pending
                 </p>
               </div>
               
-              <div className="p-6 rounded-xl" style={{ background: "linear-gradient(145deg, #1a1a24 0%, #14141c 100%)", border: "1px solid rgba(127,119,221,0.25)" }}>
-                <h3 className="text-lg font-semibold text-white mb-4">In Progress</h3>
-                <div className="text-3xl font-bold text-white">
+              <div className="p-4 lg:p-6 rounded-xl" style={{ background: "linear-gradient(145deg, #1a1a24 0%, #14141c 100%)", border: "1px solid rgba(127,119,221,0.25)" }}>
+                <h3 className="text-sm lg:text-lg font-semibold text-white mb-2 lg:mb-4">In Progress</h3>
+                <div className="text-2xl lg:text-3xl font-bold text-white">
                   {dashboardData?.projectStats?.in_progress || projects.filter(p => p.status === 'in_progress').length}
                 </div>
-                <p className="text-sm mt-2" style={{ color: "rgba(255,255,255,0.7)" }}>
+                <p className="text-xs lg:text-sm mt-1 lg:mt-2" style={{ color: "rgba(255,255,255,0.7)" }}>
                   {dashboardData?.projectStats?.in_progress || projects.filter(p => p.status === 'in_progress').length} ongoing
                 </p>
               </div>
               
-              <div className="p-6 rounded-xl" style={{ background: "linear-gradient(145deg, #1a1a24 0%, #14141c 100%)", border: "1px solid rgba(127,119,221,0.25)" }}>
-                <h3 className="text-lg font-semibold text-white mb-4">Completed</h3>
-                <div className="text-3xl font-bold text-white">
+              <div className="p-4 lg:p-6 rounded-xl" style={{ background: "linear-gradient(145deg, #1a1a24 0%, #14141c 100%)", border: "1px solid rgba(127,119,221,0.25)" }}>
+                <h3 className="text-sm lg:text-lg font-semibold text-white mb-2 lg:mb-4">Completed</h3>
+                <div className="text-2xl lg:text-3xl font-bold text-white">
                   {dashboardData?.projectStats?.completed || projects.filter(p => p.status === 'completed').length}
                 </div>
-                <p className="text-sm mt-2" style={{ color: "rgba(255,255,255,0.7)" }}>
+                <p className="text-xs lg:text-sm mt-1 lg:mt-2" style={{ color: "rgba(255,255,255,0.7)" }}>
                   Successfully delivered
                 </p>
               </div>
               
-              <div className="p-6 rounded-xl" style={{ background: "linear-gradient(145deg, #1a1a24 0%, #14141c 100%)", border: "1px solid rgba(127,119,221,0.25)" }}>
-                <h3 className="text-lg font-semibold text-white mb-4">Unpaid Invoices</h3>
-                <div className="text-3xl font-bold text-white">
+              <div className="p-4 lg:p-6 rounded-xl" style={{ background: "linear-gradient(145deg, #1a1a24 0%, #14141c 100%)", border: "1px solid rgba(127,119,221,0.25)" }}>
+                <h3 className="text-sm lg:text-lg font-semibold text-white mb-2 lg:mb-4">Unpaid Invoices</h3>
+                <div className="text-2xl lg:text-3xl font-bold text-white">
                   ${((dashboardData?.unpaidInvoices?.totalAmount || 0) / 1000).toFixed(0)}k
                 </div>
-                <p className="text-sm mt-2" style={{ color: "rgba(255,255,255,0.7)" }}>
-                  {dashboardData?.unpaidInvoices?.invoices?.length || 0} invoices
+                <p className="text-xs lg:text-sm mt-1 lg:mt-2" style={{ color: "rgba(255,255,255,0.7)" }}>
+                  {dashboardData?.unpaidInvoices?.count || 0} pending
                 </p>
               </div>
               
@@ -533,17 +534,17 @@ Generated on: ${new Date().toLocaleDateString()}
 
       case "projects":
         return (
-          <div className="rounded-xl p-6" style={{ background: "linear-gradient(145deg, #1a1a24 0%, #14141c 100%)", border: "1px solid rgba(127,119,221,0.25)" }}>
-            <h2 className="text-xl font-semibold text-white mb-6">My Projects</h2>
+          <div className="rounded-xl p-4 lg:p-6" style={{ background: "linear-gradient(145deg, #1a1a24 0%, #14141c 100%)", border: "1px solid rgba(127,119,221,0.25)" }}>
+            <h2 className="text-lg lg:text-xl font-semibold text-white mb-4 lg:mb-6">My Projects</h2>
             <div className="space-y-4">
               {projects.map((project) => (
                 <div key={project._id} className="p-4 rounded-lg" style={{ background: "rgba(255,255,255,0.02)" }}>
-                  <div className="flex justify-between items-start mb-4">
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-4 gap-3">
                     <div>
-                      <h3 className="font-medium text-white text-lg">{project.title}</h3>
-                      <p className="text-sm mt-1" style={{ color: "rgba(255,255,255,0.7)" }}>{project.description}</p>
+                      <h3 className="font-medium text-white text-base lg:text-lg">{project.title}</h3>
+                      <p className="text-xs lg:text-sm mt-1" style={{ color: "rgba(255,255,255,0.7)" }}>{project.description}</p>
                     </div>
-                    <span className="text-xs px-2 py-1 rounded" 
+                    <span className="text-xs px-2 py-1 rounded self-start sm:self-auto" 
                       style={{ 
                         background: project.status === 'completed' ? '#1D9E75' : 
                                    project.status === 'in_progress' ? '#7F77DD' : 
@@ -593,39 +594,54 @@ Generated on: ${new Date().toLocaleDateString()}
 
       case "invoices":
         return (
-          <div className="rounded-xl p-6" style={{ background: "linear-gradient(145deg, #1a1a24 0%, #14141c 100%)", border: "1px solid rgba(127,119,221,0.25)" }}>
-            <h2 className="text-xl font-semibold text-white mb-6">My Invoices</h2>
+          <div className="rounded-xl p-4 lg:p-6" style={{ background: "linear-gradient(145deg, #1a1a24 0%, #14141c 100%)", border: "1px solid rgba(127,119,221,0.25)" }}>
+            <h2 className="text-lg lg:text-xl font-semibold text-white mb-4 lg:mb-6">My Invoices</h2>
             <div className="space-y-4">
               {invoices.map((invoice) => (
                 <div key={invoice._id} className="p-4 rounded-lg" style={{ background: "rgba(255,255,255,0.02)" }}>
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <h3 className="font-medium text-white">Invoice #{invoice._id.slice(-6)}</h3>
-                      <p className="text-sm mt-1" style={{ color: "rgba(255,255,255,0.7)" }}>
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
+                    <div className="flex-1">
+                      <h3 className="font-medium text-white text-base lg:text-lg">Invoice #{invoice._id.slice(-6)}</h3>
+                      <p className="text-xs lg:text-sm mt-1" style={{ color: "rgba(255,255,255,0.7)" }}>
                         Project: {typeof invoice.project === 'object' ? invoice.project.title : 'Unknown'}
                       </p>
-                      <div className="flex items-center gap-4 mt-3">
-                        <span className="text-sm font-medium text-white">${invoice.amount.toFixed(2)}</span>
-                        <span className="text-xs" style={{ color: "rgba(255,255,255,0.5)" }}>
-                          Due: {new Date(invoice.dueDate).toLocaleDateString()}
-                        </span>
-                        <span className="text-xs px-2 py-1 rounded" 
-                          style={{ 
-                            background: invoice.status === 'paid' ? '#1D9E75' : 
-                                       invoice.status === 'overdue' ? '#DC2626' : '#F59E0B',
-                            color: 'white'
-                          }}>
-                          {invoice.status.toUpperCase()}
-                        </span>
+                      
+                      {/* Invoice Details - Responsive Grid */}
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 lg:gap-4 mt-3">
+                        <div className="flex flex-col sm:flex-col">
+                          <span className="text-xs lg:text-sm font-medium text-white">${invoice.amount.toFixed(2)}</span>
+                          <span className="text-xs" style={{ color: "rgba(255,255,255,0.5)" }}>Amount</span>
+                        </div>
+                        <div className="flex flex-col sm:flex-col">
+                          <span className="text-xs lg:text-sm" style={{ color: "rgba(255,255,255,0.7)" }}>
+                            {new Date(invoice.dueDate).toLocaleDateString()}
+                          </span>
+                          <span className="text-xs" style={{ color: "rgba(255,255,255,0.5)" }}>Due Date</span>
+                        </div>
+                        <div className="flex flex-col sm:flex-col">
+                          <span className="text-xs px-2 py-1 rounded w-fit" 
+                            style={{ 
+                              background: invoice.status === 'paid' ? '#1D9E75' : 
+                                         invoice.status === 'overdue' ? '#DC2626' : '#F59E0B',
+                              color: 'white'
+                            }}>
+                            {invoice.status.toUpperCase()}
+                          </span>
+                          <span className="text-xs mt-1" style={{ color: "rgba(255,255,255,0.5)" }}>Status</span>
+                        </div>
                       </div>
                     </div>
-                    <button
-                      onClick={() => downloadInvoice(invoice._id)}
-                      className="px-4 py-2 rounded-lg text-white font-medium text-sm"
-                      style={{ background: "linear-gradient(135deg, #534AB7 0%, #1D9E75 100%)" }}
-                    >
-                      Download
-                    </button>
+                    
+                    {/* Download Button - Mobile and Desktop */}
+                    <div className="flex sm:flex-col items-start sm:items-end gap-2">
+                      <button
+                        onClick={() => downloadInvoice(invoice._id)}
+                        className="w-full sm:w-auto px-4 py-2 rounded-lg text-white font-medium text-xs lg:text-sm"
+                        style={{ background: "linear-gradient(135deg, #534AB7 0%, #1D9E75 100%)" }}
+                      >
+                        Download
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -635,14 +651,17 @@ Generated on: ${new Date().toLocaleDateString()}
 
       case "chat":
         return (
-          <div className="rounded-xl" style={{ background: "linear-gradient(145deg, #1a1a24 0%, #14141c 100%)", border: "1px solid rgba(127,119,221,0.25)" }}>
-            <div className="p-6 border-b" style={{ borderColor: "rgba(255,255,255,0.1)" }}>
-              <h2 className="text-xl font-semibold text-white">Chat with Admin</h2>
+          <div className="rounded-xl overflow-hidden" style={{ background: "linear-gradient(145deg, #1a1a24 0%, #14141c 100%)", border: "1px solid rgba(127,119,221,0.25)" }}>
+            <div className="p-4 lg:p-6 border-b" style={{ borderColor: "rgba(255,255,255,0.1)" }}>
+              <h2 className="text-lg lg:text-xl font-semibold text-white">Chat with Admin</h2>
             </div>
-            <div className="flex" style={{ height: "500px" }}>
-              <div className="w-1/3 border-r" style={{ borderColor: "rgba(255,255,255,0.1)" }}>
-                <div className="p-4">
-                  <h3 className="text-sm font-medium text-white mb-4">Conversations</h3>
+            <div className="flex flex-col lg:flex-row h-[60vh] lg:h-[70vh] max-h-[600px]">
+              {/* Conversations Sidebar */}
+              <div className="w-full lg:w-1/3 border-b lg:border-r lg:border-b-0 overflow-hidden flex flex-col" style={{ borderColor: "rgba(255,255,255,0.1)" }}>
+                <div className="p-3 lg:p-4 flex-shrink-0">
+                  <h3 className="text-xs lg:text-sm font-medium text-white">Conversations</h3>
+                </div>
+                <div className="flex-1 overflow-y-auto px-3 lg:px-4 pb-3 lg:pb-4">
                   <div className="space-y-2">
                     {adminUsers.length > 0 ? (
                       adminUsers.map((admin) => (
@@ -652,14 +671,14 @@ Generated on: ${new Date().toLocaleDateString()}
                             setSelectedConversation(admin._id);
                             fetchConversation(admin._id);
                           }}
-                          className="p-3 rounded-lg cursor-pointer"
+                          className="p-2 lg:p-3 rounded-lg cursor-pointer"
                           style={{ 
                             background: selectedConversation === admin._id ? 
                               "rgba(127,119,221,0.2)" : "rgba(255,255,255,0.02)"
                           }}
                         >
-                          <div className="font-medium text-white">{admin.name}</div>
-                          <div className="text-xs mt-1" style={{ color: "rgba(255,255,255,0.5)" }}>
+                          <div className="font-medium text-white text-xs lg:text-sm truncate">{admin.name}</div>
+                          <div className="text-xs mt-1 truncate" style={{ color: "rgba(255,255,255,0.5)" }}>
                             {admin.role.charAt(0).toUpperCase() + admin.role.slice(1)}
                           </div>
                         </div>
@@ -673,44 +692,47 @@ Generated on: ${new Date().toLocaleDateString()}
                 </div>
               </div>
               <div className="flex-1 flex flex-col">
-                <div className="flex-1 p-4 overflow-y-auto">
-                  <div className="space-y-4">
-                    {currentMessages.map((message) => (
-                      <div key={message._id} className={`flex ${message.sender === 'client' ? 'justify-end' : 'justify-start'}`}>
-                        <div className={`max-w-xs px-4 py-2 rounded-lg ${
-                          message.sender === 'client' 
-                            ? 'text-white' 
-                            : 'text-gray-100'
-                        }`}
-                        style={{ 
-                          background: message.sender === 'client' 
-                            ? "linear-gradient(135deg, #534AB7 0%, #1D9E75 100%)" 
-                            : "rgba(255,255,255,0.1)"
-                        }}>
-                          {message.content}
+                <div className="flex-1 flex flex-col overflow-hidden">
+                  <div className="flex-1 overflow-y-auto p-3 lg:p-4">
+                    <div className="space-y-2 lg:space-y-4">
+                      {currentMessages.map((message) => (
+                        <div key={message._id} className={`flex ${message.sender === 'client' ? 'justify-end' : 'justify-start'}`}>
+                          <div className={`max-w-[85%] lg:max-w-xs px-3 lg:px-4 py-2 lg:py-2 rounded-lg break-words ${
+                            message.sender === 'client' 
+                              ? 'text-white' 
+                              : 'text-gray-100'
+                          }`}
+                          style={{ 
+                            background: message.sender === 'client' 
+                              ? "linear-gradient(135deg, #534AB7 0%, #1D9E75 100%)" 
+                              : "rgba(255,255,255,0.1)"
+                          }}>
+                            <p className="text-xs lg:text-sm">{message.content}</p>
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
-                </div>
-                <div className="p-4 border-t" style={{ borderColor: "rgba(255,255,255,0.1)" }}>
-                  <div className="flex gap-2">
-                    <input
-                      type="text"
-                      value={messageInput}
-                      onChange={(e) => setMessageInput(e.target.value)}
-                      onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
-                      className="flex-1 px-3 py-2 rounded-lg"
-                      style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "white" }}
-                      placeholder="Type your message..."
-                    />
-                    <button
-                      onClick={sendMessage}
-                      className="px-4 py-2 rounded-lg text-white font-medium"
-                      style={{ background: "linear-gradient(135deg, #534AB7 0%, #1D9E75 100%)" }}
-                    >
-                      Send
-                    </button>
+                  <div className="p-3 lg:p-4 border-t flex-shrink-0" style={{ borderColor: "rgba(255,255,255,0.1)" }}>
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={messageInput}
+                        onChange={(e) => setMessageInput(e.target.value)}
+                        className="flex-1 px-3 py-2 rounded-lg text-white outline-none text-sm"
+                        style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)" }}
+                        placeholder="Type a message..."
+                        disabled={!selectedConversation}
+                      />
+                      <button
+                        onClick={sendMessage}
+                        className="px-3 lg:px-4 py-2 rounded-lg text-white font-medium text-sm"
+                        style={{ background: "linear-gradient(135deg, #534AB7 0%, #1D9E75 100%)" }}
+                        disabled={!selectedConversation}
+                      >
+                        Send
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -770,82 +792,158 @@ Generated on: ${new Date().toLocaleDateString()}
   };
 
   return (
-    <div className="min-h-screen" style={{ background: "#0F0F14" }}>
-      <div className="flex">
-        {/* Sidebar */}
-        <div className="w-64 min-h-screen p-6" style={{ background: "linear-gradient(145deg, #1a1a24 0%, #14141c 100%)", borderRight: "1px solid rgba(127,119,221,0.25)" }}>
+    <div className="min-h-screen flex" style={{ background: "#0F0F14" }}>
+      {/* Mobile Menu Overlay */}
+      {isMobileMenuOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
+      
+      {/* Sidebar */}
+      <div className={`
+        fixed lg:relative lg:translate-x-0 z-50
+        ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}
+        transition-transform duration-300 ease-in-out
+        w-64 h-full lg:h-auto p-4 border-r
+        flex flex-col overflow-hidden
+      `} style={{ background: "linear-gradient(145deg, #1a1a24 0%, #14141c 100%)", borderRight: "1px solid rgba(127,119,221,0.25)" }}>
           <div className="mb-8">
-            <h1 className="text-2xl font-bold text-white">Client Portal</h1>
-            <p className="text-sm mt-1" style={{ color: "rgba(255,255,255,0.4)" }}>
-              Your project dashboard
-            </p>
-          </div>
-          
-          <nav className="space-y-2">
-            {menuItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => setActiveSection(item.id)}
-                className={`w-full text-left px-4 py-3 rounded-lg transition-all ${
-                  activeSection === item.id
-                    ? "text-white"
-                    : "text-gray-400 hover:text-white"
-                }`}
+            <div className="flex items-center gap-3 mb-8">
+              <div
+                className="relative w-10 h-10 rounded-xl flex items-center justify-center"
                 style={{
-                  background: activeSection === item.id ? "rgba(127,119,221,0.2)" : "transparent",
+                  background: "linear-gradient(135deg, #534AB7 0%, #1D9E75 100%)",
+                  boxShadow: "0 0 20px rgba(83,74,183,0.4), 0 4px 12px rgba(0,0,0,0.3)",
                 }}
               >
-                <span className="mr-1">{item.icon}</span>
-                {item.label}
-              </button>
-            ))}
-          </nav>
-          
-          <div className="mt-8 pt-8 border-t" style={{ borderColor: "rgba(255,255,255,0.1)" }}>
-            <button
-              onClick={() => {
-                localStorage.removeItem('accessToken');
-                localStorage.removeItem('refreshToken');
-                navigate('/login');
-              }}
-              className="w-full px-4 py-3 rounded-lg text-gray-400 hover:text-white transition-all"
-              style={{ background: "transparent" }}
-            >
-              Logout
-            </button>
+                <svg
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="white"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <rect x="3" y="3" width="18" height="4" rx="1" />
+                  <rect x="3" y="10" width="18" height="4" rx="1" />
+                  <rect x="3" y="17" width="18" height="4" rx="1" />
+                </svg>
+              </div>
+              <span className="text-xl font-bold tracking-tight text-white">
+                IBO<span style={{ color: "#7F77DD" }}>S</span>
+              </span>
+            </div>
           </div>
+        
+        <nav className="space-y-2 flex-1 overflow-y-auto py-4">
+          {menuItems.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => {
+                setActiveSection(item.id);
+                // Close mobile menu after selection
+                if (window.innerWidth < 1024) {
+                  setIsMobileMenuOpen(false);
+                }
+              }}
+              className={`w-full text-left px-4 py-3 rounded-lg transition-all ${
+                activeSection === item.id
+                  ? "text-white"
+                  : "text-gray-400 hover:text-white"
+              }`}
+              style={{
+                background: activeSection === item.id ? "rgba(127,119,221,0.2)" : "transparent",
+              }}
+            >
+              <span className="mr-3">{item.icon}</span>
+              {item.label}
+            </button>
+          ))}
+        </nav>
+
+        <div className="mt-auto pt-8">
+          <button
+            onClick={() => {
+              localStorage.removeItem('accessToken');
+              localStorage.removeItem('refreshToken');
+              navigate('/login');
+              // Close mobile menu after logout
+              if (window.innerWidth < 1024) {
+                setIsMobileMenuOpen(false);
+              }
+            }}
+            className="w-full px-4 py-3 rounded-lg text-gray-400 hover:text-white transition-all"
+            style={{ background: "transparent" }}
+          >
+            Logout
+          </button>
+        </div>
         </div>
 
         {/* Main Content */}
-        <div className="flex-1 p-8">
-          <div className="mb-8">
-            <h1 className="text-2xl font-bold text-white">
-              {menuItems.find(item => item.id === activeSection)?.label || "Dashboard"}
-            </h1>
-            <p className="text-sm mt-1" style={{ color: "rgba(255,255,255,0.4)" }}>
-              Manage your projects and communications
-            </p>
-          </div>
-          
+      <div className="flex-1 flex flex-col lg:ml-0">
+        {/* Mobile Header */}
+        <div className="lg:hidden flex items-center justify-between p-4 border-b" style={{ borderColor: "rgba(127,119,221,0.25)" }}>
+          <button
+            onClick={() => setIsMobileMenuOpen(true)}
+            className="p-2 rounded-lg"
+            style={{ background: "rgba(255,255,255,0.05)" }}
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="white"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <line x1="3" y1="12" x2="21" y2="12" />
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <line x1="3" y1="18" x2="21" y2="18" />
+            </svg>
+          </button>
+          <h1 className="text-lg font-bold text-white">
+            {menuItems.find(item => item.id === activeSection)?.label || "Dashboard"}
+          </h1>
+        </div>
+
+        {/* Desktop Header */}
+        <div className="hidden lg:block p-8 pb-4">
+          <h1 className="text-2xl font-bold text-white">
+            {menuItems.find(item => item.id === activeSection)?.label || "Dashboard"}
+          </h1>
+          <p className="text-sm mt-1" style={{ color: "rgba(255,255,255,0.4)" }}>
+            Manage your projects and communications
+          </p>
+        </div>
+
+        {/* Content */}
+        <div className="flex-1 p-4 lg:p-8 overflow-auto">
           {renderContent()}
         </div>
+        
+        {/* Toast */}
+        {toast && (
+          <div
+            className="fixed top-6 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-xl text-sm font-medium shadow-2xl whitespace-nowrap animate-fade-in-up"
+            style={{
+              background:
+                toast.type === "success"
+                  ? "linear-gradient(135deg, #1D9E75 0%, #1D9E75 100%)"
+                  : "linear-gradient(135deg, #DC2626 0%, #DC2626 100%)",
+              color: "white",
+            }}
+          >
+            {toast.message}
+          </div>
+        )}
       </div>
-
-      {/* Toast */}
-      {toast && (
-        <div
-          className="fixed top-6 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-xl text-sm font-medium shadow-2xl whitespace-nowrap animate-fade-in-up"
-          style={{
-            background:
-              toast.type === "success"
-                ? "linear-gradient(135deg, #1D9E75 0%, #1D9E75 100%)"
-                : "linear-gradient(135deg, #DC2626 0%, #DC2626 100%)",
-            color: "white",
-          }}
-        >
-          {toast.message}
-        </div>
-      )}
     </div>
   );
 };
